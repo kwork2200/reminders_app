@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:reminders_app/core/theme/app_colors.dart';
-import '../../data/firebase/admob_service.dart';
+import '../../ads/hybrid_banner_ad_widget.dart';
+import '../../ads/hybrid_native_ad_widget.dart';
 import '../../data/models/chime_model.dart';
 import 'home_controller.dart';
 
@@ -18,7 +19,7 @@ class HomeView extends GetView<HomeController> {
         elevation: 0,
         titleSpacing: 20.w,
         title: Text(
-          'Hourly Chime',
+          'Reminders',
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
@@ -68,15 +69,10 @@ class HomeView extends GetView<HomeController> {
           ),
         ],
       ),
-      bottomNavigationBar: controller.isBannerAdLoaded.value ?Container(
-        alignment: Alignment.center,
-        // padding: EdgeInsets.only(bottom: 10.h),
-        height: 60.h,
-        width: 100.h,
-        child: Obx(() => _buildBannerAdWidget(context)),
-      ):SizedBox.shrink(),
       body: SafeArea(
+        bottom: false,
         child: SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: 20.h),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Column(
@@ -84,7 +80,9 @@ class HomeView extends GetView<HomeController> {
               children: [
                 SizedBox(height: 16.h),
                 _buildDefaultChimeCard(context),
-                SizedBox(height: 28.h),
+                SizedBox(height: 20.h),
+                const HybridNativeAdWidget(),
+                SizedBox(height: 18.h),
                 _buildYourChimesSection(context),
                 SizedBox(height: 20.h),
               ],
@@ -92,17 +90,21 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
       ),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: const HybridBannerAdWidget(),
+      ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            onPressed: controller.testBackgroundService,
-            heroTag: "test",
-            mini: true,
-            backgroundColor: Colors.orange,
-            child: Icon(Icons.bug_report, size: 20.sp, color: Colors.white),
-          ),
-          SizedBox(height: 10.h),
+          // FloatingActionButton(
+          //   onPressed: controller.testBackgroundService,
+          //   heroTag: "test",
+          //   mini: true,
+          //   backgroundColor: Colors.orange,
+          //   child: Icon(Icons.bug_report, size: 20.sp, color: Colors.white),
+          // ),
+          // SizedBox(height: 10.h),
           FloatingActionButton(
             onPressed: controller.addChime,
             heroTag: "add",
@@ -358,23 +360,6 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildBannerAdWidget(BuildContext context) {
-    final adMobService = AdMobService();
-    final bannerWidget = adMobService.getBannerAdWidget();
-    
-    // Use reactive state to check if banner ad is loaded
-    if (controller.isBannerAdLoaded.value) {
-      return bannerWidget;
-    } else {
-      return Text(
-        'Ad loading...',
-        style: TextStyle(
-          color: Theme.of(context).textTheme.bodySmall?.color ?? Colors.grey,
-          fontSize: 12.sp,
-        ),
-      );
-    }
-  }
 
   Widget _buildEmptyState(BuildContext context) {
     return Center(

@@ -1,59 +1,21 @@
 {
   "project_info": {
-    "project_number": "285054194060",
-    "project_id": "applink-d7c5c",
-    "storage_bucket": "applink-d7c5c.firebasestorage.app"
+    "project_number": "700377261447",
+    "project_id": "pdf-viewer-bf49e",
+    "storage_bucket": "pdf-viewer-bf49e.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:285054194060:android:91404bb4060c6f461ac6a9",
+        "mobilesdk_app_id": "1:700377261447:android:082dea8d168d57024e9f22",
         "android_client_info": {
-          "package_name": "com.example.pro_video_editor_example"
+          "package_name": "com.reminders.reminder_app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAsSpJNj5xzWCI1UxAEvNiZ5DIFJndhVe8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:285054194060:android:7141e98a4c5647571ac6a9",
-        "android_client_info": {
-          "package_name": "com.example.reminders_app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAsSpJNj5xzWCI1UxAEvNiZ5DIFJndhVe8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:285054194060:android:c731ebb53a2656431ac6a9",
-        "android_client_info": {
-          "package_name": "com.example.restaurantden_app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAsSpJNj5xzWCI1UxAEvNiZ5DIFJndhVe8"
+          "current_key": "AIzaSyApeTnaTFpr97dnARj_jWfpdpzZpC6B9r8"
         }
       ],
       "services": {

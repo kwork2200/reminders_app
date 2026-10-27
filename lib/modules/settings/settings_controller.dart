@@ -4,6 +4,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../data/services/sound_service.dart';
 import '../../data/services/storage_service.dart';
 import '../../routes/app_routes.dart';
+import '../../utils/functions.dart';
 import '../theme/theme_controller.dart';
 
 class SettingsController extends GetxController {
@@ -79,11 +80,10 @@ class SettingsController extends GetxController {
 
   void openThemeSettings() {
     Get.bottomSheet(
-      Container(
-        decoration: BoxDecoration(
-          color: Get.isDarkMode ? const Color(0xFF1C1C1E) : Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
+      Material(
+        color: Get.isDarkMode ? const Color(0xFF1C1C1E) : Colors.white,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        clipBehavior: Clip.antiAlias,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -112,6 +112,7 @@ class SettingsController extends GetxController {
           ],
         ),
       ),
+      backgroundColor: Colors.transparent,
     );
   }
   Widget _buildThemeTile(String label, IconData icon) {
@@ -141,8 +142,16 @@ class SettingsController extends GetxController {
   }
 
 
+  Future<void> _openWithAd(String route) async {
+    final context = Get.context;
+    if (context != null) {
+      await showManagedInterstitialAd(context);
+    }
+    Get.toNamed(route);
+  }
+
   void openQuietHours() {
-    Get.toNamed(Routes.QUIET_HOURS);
+    _openWithAd(Routes.QUIET_HOURS);
   }
 
   String formatTime(int hour, int minute, bool isPM) {
@@ -150,17 +159,17 @@ class SettingsController extends GetxController {
     return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
   }
   void openPremium() {
-    Get.toNamed(Routes.UPGRADE);
+    _openWithAd(Routes.UPGRADE);
   }
   void openFeedback() {
     selectedRating.value = 0;
     selectedFeedbackType.value = '';
     feedbackController.clear();
-    
-    Get.toNamed(Routes.FEEDBACK);
+
+    _openWithAd(Routes.FEEDBACK);
   }
   void openOurApps() {
-    Get.toNamed(Routes.OUR_APPS);
+    _openWithAd(Routes.OUR_APPS);
   }
   
   void openApp(String appName) {
@@ -170,11 +179,12 @@ class SettingsController extends GetxController {
       'Opening $appName in app store...',
       backgroundColor: const Color(0xFF2979FF),
       colorText: Colors.white,
+      isDismissible: false,
     );
     
     // For demo purposes, we'll just show a snackbar
     // In a real app, you would use the appropriate app store URLs
-    // Example: launchUrl(Uri.parse('https://play.google.com/store/apps/details?id=com.company.appname'));
+    // Example: launchUrl(Uri.parse('https://play.google.com/store/apps/details?id=com.reminders.reminder_app'));
   }
   void rateApp() {
     selectedRating.value = 0;
@@ -190,7 +200,7 @@ class SettingsController extends GetxController {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Rate Hourly Chime',
+                'Rate Reminders',
                 style: TextStyle(
                   color: Get.isDarkMode ? Colors.white : Colors.black87,
                   fontSize: 20,
@@ -356,17 +366,19 @@ class SettingsController extends GetxController {
         'We appreciate your feedback and will work to improve the app.',
         backgroundColor: const Color(0xFF2979FF),
         colorText: Colors.white,
+        isDismissible: false,
       );
     }
   }
   
   void _openAppStore() {
-    final appStoreUrl = 'https://play.google.com/store/apps/details?id=com.yourcompany.hourlychime';
+    final appStoreUrl = 'https://play.google.com/store/apps/details?id=com.reminders.reminder_app';
     Get.snackbar(
       'App Store',
       'Opening app store to rate the app...',
       backgroundColor: const Color(0xFF2979FF),
       colorText: Colors.white,
+      isDismissible: false,
     );
   }
   
@@ -383,6 +395,7 @@ class SettingsController extends GetxController {
         'Please fill in all required fields',
         backgroundColor: Colors.red,
         colorText: Colors.white,
+        isDismissible: false,
       );
       return;
     }
@@ -452,6 +465,7 @@ class SettingsController extends GetxController {
         snackPosition: SnackPosition.BOTTOM, // More reliable than TOP after navigation
         margin: const EdgeInsets.all(16),
         borderRadius: 12,
+        isDismissible: false,
       );
     } catch (e) {
       Get.snackbar(
@@ -462,28 +476,42 @@ class SettingsController extends GetxController {
         duration: const Duration(seconds: 2),
         snackPosition: SnackPosition.BOTTOM,
         margin: const EdgeInsets.all(16),
+        isDismissible: false,
       );
     }
   }
   void shareApp() {
-    final String appLink = 'https://play.google.com/store/apps/details?id=com.yourcompany.hourlychime';
-    final String shareText = 'Check out Hourly Chime - Perfect time management with beautiful chimes!\n\n$appLink';
+    final String appLink = 'https://play.google.com/store/apps/details?id=com.reminders.reminder_app';
+    final String shareText = 'Check out Reminders - Perfect time management with beautiful chimes!\n\n$appLink';
 
     Share.share(
       shareText,
-      subject: 'Hourly Chime App',
+      subject: 'Reminders App',
     ).catchError((error) {
       Get.snackbar(
         'Share Error',
         'Could not share the app. Please try again.',
         backgroundColor: Colors.red,
         colorText: Colors.white,
+        isDismissible: false,
       );
     });
   }
 
   void openPrivacyPolicy() {
-    Get.toNamed(Routes.PRIVACY_POLICY);
+    _openWithAd(Routes.PRIVACY_POLICY);
+  }
+
+  void openTerms() {
+    _openWithAd(Routes.TERMS);
+  }
+
+  void openAbout() {
+    _openWithAd(Routes.ABOUT_US);
+  }
+
+  void openContact() {
+    _openWithAd(Routes.CONTACT_US);
   }
 
   void logout() {
@@ -498,10 +526,15 @@ class SettingsController extends GetxController {
       cancelTextColor: Colors.white,
       buttonColor: const Color(0xFF2979FF),
       // cancelTextColor: Colors.white70,
-      onConfirm: () {
+      onConfirm: () async {
         Get.back();
-        Get.snackbar('Logged Out', 'You have been logged out');
         Get.offAllNamed('/onboarding');
+        await Future.delayed(const Duration(milliseconds: 300));
+        Get.snackbar(
+          'Logged Out',
+          'You have been logged out',
+          isDismissible: false,
+        );
       },
     );
   }

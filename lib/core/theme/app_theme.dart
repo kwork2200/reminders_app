@@ -21,6 +21,7 @@ class AppTheme {
         titleLarge: GoogleFonts.outfit(color: AppColors.textPrimaryLight, fontWeight: FontWeight.w600),
         bodyLarge: GoogleFonts.outfit(color: AppColors.textPrimaryLight),
         bodyMedium: GoogleFonts.outfit(color: AppColors.textSecondaryLight),
+        bodySmall: GoogleFonts.outfit(color: AppColors.textSecondaryLight),
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
@@ -50,6 +51,7 @@ class AppTheme {
         titleLarge: GoogleFonts.outfit(color: AppColors.textPrimaryDark, fontWeight: FontWeight.w600),
         bodyLarge: GoogleFonts.outfit(color: AppColors.textPrimaryDark),
         bodyMedium: GoogleFonts.outfit(color: AppColors.textSecondaryDark),
+        bodySmall: GoogleFonts.outfit(color: AppColors.textSecondaryDark),
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,

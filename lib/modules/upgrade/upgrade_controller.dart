@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../routes/app_routes.dart';
 
 class UpgradeController extends GetxController {
   final selectedPlan = 'yearly'.obs;
@@ -8,25 +9,25 @@ class UpgradeController extends GetxController {
     selectedPlan.value = plan;
   }
 
-  void upgrade() {
+  void upgrade() async {
+    Get.back();
+    await Future.delayed(const Duration(milliseconds: 300));
     Get.snackbar(
-      'Upgrade Successful',
-      'Welcome to Premium! Enjoy all features.',
+      'Coming Soon',
+      'Premium upgrade is not available yet. Stay tuned!',
       backgroundColor: const Color(0xFF2979FF),
       colorText: Colors.white,
       snackPosition: SnackPosition.BOTTOM,
+      isDismissible: false,
     );
-    Future.delayed(const Duration(seconds: 2), () {
-      Get.back();
-    });
   }
 
   void openTerms() {
-    Get.snackbar('Terms', 'Terms of Service would open here');
+    Get.toNamed(Routes.TERMS);
   }
 
   void openPrivacy() {
-    Get.snackbar('Privacy', 'Privacy Policy would open here');
+    Get.toNamed(Routes.PRIVACY_POLICY);
   }
 
   void goBack() {

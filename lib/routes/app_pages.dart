@@ -12,6 +12,9 @@ import '../modules/add_chime/add_chime_view.dart';
 import '../modules/settings/settings_binding.dart';
 import '../modules/settings/settings_view.dart';
 import '../modules/settings/privacy_policy_view.dart';
+import '../modules/settings/terms_view.dart';
+import '../modules/settings/about_view.dart';
+import '../modules/settings/contact_view.dart';
 import '../modules/settings/our_apps_view.dart';
 import '../modules/settings/feedback_view.dart';
 import '../modules/settings/quiet_hours_view.dart';
@@ -59,6 +62,24 @@ class AppPages {
     GetPage(
       name: Routes.PRIVACY_POLICY,
       page: () => const PrivacyPolicyView(),
+      binding: SettingsBinding(),
+    ),
+
+    GetPage(
+      name: Routes.TERMS,
+      page: () => const TermsView(),
+      binding: SettingsBinding(),
+    ),
+
+    GetPage(
+      name: Routes.ABOUT_US,
+      page: () => const AboutView(),
+      binding: SettingsBinding(),
+    ),
+
+    GetPage(
+      name: Routes.CONTACT_US,
+      page: () => const ContactView(),
       binding: SettingsBinding(),
     ),
 

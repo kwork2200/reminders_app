@@ -1,142 +1,90 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'settings_controller.dart';
+import 'app_info_page.dart';
 
-class PrivacyPolicyView extends GetView<SettingsController> {
+class PrivacyPolicyView extends StatelessWidget {
   const PrivacyPolicyView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.chevron_left, color: Theme.of(context).iconTheme.color, size: 28),
-          onPressed: controller.goBack,
+    return AppInfoPage(
+      title: 'Privacy Policy',
+      tagline: 'Your chimes stay on your device. Always.',
+      sections: const [
+        InfoSection(
+          'Overview',
+          'This Privacy Policy explains how ${AppInfo.appName} ("we", "our", or "us") handles information when you use our mobile application '
+          '"${AppInfo.appName}" (package name: ${AppInfo.packageName}). By using the app, you agree to the practices described below.',
         ),
-        title: Text(
-          'Privacy Policy',
-          style: TextStyle(
-            color: Theme.of(context).textTheme.titleLarge?.color,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+        InfoSection(
+          'Information You Create in the App',
+          '• Chime names, times, repeat days, sound and vibration preferences\n'
+          '• Custom sound files that you record or import\n'
+          '• App settings such as theme, volume and quiet hours\n\n'
+          'This information is stored locally on your device. The app does not require an account and we do not upload your chime data to our servers.',
         ),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSection(
-              'Data Collection',
-              'Hourly Chime collects minimal personal information to provide you with the best experience. We only collect information that is necessary for the app to function properly.',context
-            ),
-            SizedBox(height: 24.h),
-            _buildSection(
-              'Information We Collect',
-              '• Chime settings and preferences\n• Usage analytics to improve the app\n• Device information for compatibility\n• No personal identifiers or sensitive data',context
-            ),
-            SizedBox(height: 24.h),
-            _buildSection(
-              'How We Use Your Data',
-              '• To provide and maintain our service\n• To notify you about app updates\n• To analyze usage patterns for improvements\n• To ensure app security and stability',context
-            ),
-            SizedBox(height: 24.h),
-            _buildSection(
-              'Data Storage & Security',
-              'All your data is stored locally on your device. We do not store or transmit any personal information to external servers. Your chime settings and preferences remain private and secure on your device.',context
-            ),
-            SizedBox(height: 24.h),
-            _buildSection(
-              'Third-Party Services',
-              'Hourly Chime may use third-party services for:\n• Analytics to understand app usage\n• Crash reporting to improve stability\n• These services do not have access to personal data',context
-            ),
-            SizedBox(height: 24.h),
-            _buildSection(
-              'Your Rights',
-              'You have the right to:\n• Access your data stored in the app\n• Delete all app data and settings\n• Opt-out of analytics (in settings)\n• Request data export',context
-            ),
-
-            SizedBox(height: 24.h),
-            _buildSection(
-              'Children\'s Privacy',
-              'Our app does not collect any personal information from children under 13. We are committed to protecting children\'s privacy online.',context
-            ),
-            SizedBox(height: 24.h),
-            _buildSection(
-              'Changes to This Policy',
-              'We may update this privacy policy from time to time. We will notify you of any changes by posting the new policy in the app.',context
-            ),
-            SizedBox(height: 24.h),
-            _buildSection(
-              'Contact Us',
-              'If you have any questions about this Privacy Policy, please contact us at:\n\nsupport@hourlychime.com',context
-            ),
-            SizedBox(height: 32.h),
-            _buildLastUpdated(context),
-          ],
+        InfoSection(
+          'Information Collected Automatically',
+          '• Device model, operating system and language\n'
+          '• Anonymous usage events, such as screens opened and features used\n'
+          '• Crash and performance diagnostics\n\n'
+          'This information is collected through Firebase Analytics and Firebase Remote Config and is used only to understand app usage, fix issues and improve the experience.',
         ),
-      ),
-    );
-  }
-
-  Widget _buildSection(String title, String content,context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            color: Theme.of(context).textTheme.titleLarge?.color,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-          ),
+        InfoSection(
+          'Permissions We Request',
+          '• Notifications – to deliver your scheduled chimes\n'
+          '• Exact alarms / schedule – to fire chimes on time\n'
+          '• Vibration – for chime vibration\n'
+          '• Microphone – only while you record a custom chime sound\n'
+          '• Storage / media – only when you pick an audio file for a chime\n'
+          '• Battery optimization exemption – to keep chimes working when the app is closed\n\n'
+          'Permissions are requested only when needed and can be changed at any time in your device settings.',
         ),
-        SizedBox(height: 12.h),
-        Text(
-          content,
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
-            fontSize: 14.sp,
-            height: 1.5,
-          ),
+        InfoSection(
+          'Advertising and Third-Party Services',
+          'Reminders is free and supported by ads. We use Google AdMob, Meta Audience Network (Facebook) and third-party ad networks to display ads. '
+          'These partners may collect a device advertising identifier and technical information such as device type, operating system and general location '
+          'to show and measure ads. Their handling of data is governed by their own privacy policies:\n\n'
+          '• Google: https://policies.google.com/technologies/ads\n'
+          '• Meta: https://www.facebook.com/privacy/policy',
+        ),
+        InfoSection(
+          'Firebase Services',
+          'We use Firebase Remote Config to manage app and ad settings, and Firebase Analytics to understand how the app is used. '
+          'Firebase may collect device identifiers, app usage events and diagnostic data. No chime content or custom sound files are sent to Firebase.',
+        ),
+        InfoSection(
+          'Data Sharing',
+          'We do not sell your personal information. Information is shared only with service providers that help us run the app '
+          '(analytics, advertising and diagnostics), or when required by law or to protect our rights.',
+        ),
+        InfoSection(
+          'Data Storage and Security',
+          'Chime data, custom sounds and preferences are stored on your device. We use reasonable measures to protect information, '
+          'but no method of electronic storage is completely secure. You are responsible for keeping your device protected.',
+        ),
+        InfoSection(
+          'Data Retention and Deletion',
+          'Your chimes and settings remain on your device until you delete them. Deleting a chime, clearing app data or uninstalling the app removes that local data. '
+          'To request deletion of analytics data associated with your device, contact us using the details below.',
+        ),
+        InfoSection(
+          'Children\'s Privacy',
+          'Reminders is not directed to children under 13. We do not knowingly collect personal information from children. '
+          'If you believe a child has provided us with information, contact us and we will remove it.',
+        ),
+        InfoSection(
+          'Your Choices and Rights',
+          '• Edit or delete any chime from the app at any time\n'
+          '• Turn notifications off from device settings\n'
+          '• Opt out of personalized ads from your device ad settings (Android: Settings → Google → Ads)\n'
+          '• Contact us to request access to or deletion of your data',
+        ),
+        InfoSection(
+          'Changes to This Policy',
+          'We may update this Privacy Policy from time to time. The updated policy will be posted in the app. '
+          'Continued use of the app after changes means you accept the updated policy.',
         ),
       ],
-    );
-  }
-
-  Widget _buildLastUpdated(context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Column(
-        children: [
-          Text(
-            'Last Updated',
-            style: TextStyle(
-              color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.6),
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            'December 15, 2023',
-            style: TextStyle(
-              color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.8),
-              fontSize: 14.sp,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

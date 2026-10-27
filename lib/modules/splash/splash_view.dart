@@ -74,7 +74,7 @@ class SplashView extends GetView<SplashController> {
                         return Opacity(
                           opacity: value,
                           child: Text(
-                            'Hourly Chime',
+                            'Reminders',
                             style: TextStyle(
                               color: Theme.of(context).textTheme.titleLarge?.color ?? Colors.white,
                               fontSize: 32.sp,
@@ -154,15 +154,6 @@ class SplashView extends GetView<SplashController> {
                       },
                     ),
                     SizedBox(height: 10.h),
-                    
-                    // Version number
-                    Text(
-                      'Version 1.4.5',
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyLarge?.color ?? Colors.white,
-                        fontSize: 12.sp,
-                      ),
-                    ),
                   ],
                 ),
               ),

@@ -1,6 +1,6 @@
 {
-    "name": "reminders_app",
-    "short_name": "reminders_app",
+    "name": "Reminders",
+    "short_name": "Reminders",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

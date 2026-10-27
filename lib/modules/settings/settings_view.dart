@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../ads/ad_on_back_wrapper.dart';
+import '../../ads/hybrid_banner_ad_widget.dart';
+import '../../ads/hybrid_native_ad_widget.dart';
 import '../theme/theme_controller.dart';
 import 'settings_controller.dart';
 
@@ -8,6 +11,12 @@ class SettingsView extends GetView<SettingsController> {
 
   @override
   Widget build(BuildContext context) {
+    return AdOnBackWrapper(
+      child: _buildScaffold(context),
+    );
+  }
+
+  Widget _buildScaffold(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -15,7 +24,7 @@ class SettingsView extends GetView<SettingsController> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.chevron_left, color: Theme.of(context).iconTheme.color, size: 28),
-          onPressed: controller.goBack,
+          onPressed: () => Navigator.of(context).maybePop(),
         ),
         title: Text(
           'Settings',
@@ -52,7 +61,7 @@ class SettingsView extends GetView<SettingsController> {
               context: context
             ),
             const SizedBox(height: 24),
-
+            const HybridNativeAdWidget(),
             _buildSectionHeader('Sound Settings',context),
             const SizedBox(height: 8),
             _buildSettingsCard(
@@ -138,8 +147,7 @@ class SettingsView extends GetView<SettingsController> {
               ],
             ),
             const SizedBox(height: 24),
-
-            // Notification Settings Section
+            const HybridNativeAdWidget(),
             _buildSectionHeader('Notification Settings',context),
             const SizedBox(height: 8),
             _buildSettingsCard(
@@ -154,9 +162,8 @@ class SettingsView extends GetView<SettingsController> {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
-
-            // About Us Section
+            const SizedBox(height: 18),
+            const HybridNativeAdWidget(),
             _buildSectionHeader('About Us',context),
             const SizedBox(height: 8),
             _buildSettingsCard(
@@ -170,6 +177,13 @@ class SettingsView extends GetView<SettingsController> {
                 ),
                 _buildDivider(context),
                 _buildChevronRow(
+                  icon: Icons.support_agent_outlined,
+                  title: 'Contact Us',
+                  onTap: controller.openContact,
+                  context: context,
+                ),
+                _buildDivider(context),
+                _buildChevronRow(
                   icon: Icons.apps_outlined,
                   title: 'Our Apps',
                   onTap: controller.openOurApps,
@@ -178,15 +192,22 @@ class SettingsView extends GetView<SettingsController> {
                 _buildDivider(context),
                 _buildChevronRow(
                   icon: Icons.star_outline,
-                  title: 'Rate Hourly Chime',
+                  title: 'Rate Reminders',
                   onTap: controller.rateApp,
                   context: context,
                 ),
                 _buildDivider(context),
                 _buildChevronRow(
-                  icon: Icons.share_outlined,
-                  title: 'Share App',
-                  onTap: controller.shareApp,
+                  icon: Icons.info_outline,
+                  title: 'About Us',
+                  onTap: controller.openAbout,
+                  context: context,
+                ),
+                _buildDivider(context),
+                _buildChevronRow(
+                  icon: Icons.description_outlined,
+                  title: 'Terms & Conditions',
+                  onTap: controller.openTerms,
                   context: context,
                 ),
                 _buildDivider(context),
@@ -196,18 +217,17 @@ class SettingsView extends GetView<SettingsController> {
                   onTap: controller.openPrivacyPolicy,
                   context: context,
                 ),
-                _buildDivider(context),
-                _buildChevronRow(
-                  icon: Icons.check_box_outlined,
-                  title: 'Version',
-                  trailingText: '1.4.5',
-                  context: context,
-                ),
               ],
             ),
+            const SizedBox(height: 24),
+            const HybridNativeAdWidget(),
             const SizedBox(height: 32),
           ],
         ),
+      ),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: const HybridBannerAdWidget(),
       ),
     );
   }
@@ -273,12 +293,12 @@ class SettingsView extends GetView<SettingsController> {
 
   Widget _buildSectionHeader(String text, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 4),
+      padding: const EdgeInsets.only(left: 4,top: 20),
       child: Text(
         text,
         style: TextStyle(
-          color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.38) ?? Colors.white38,
-          fontSize: 13,
+          color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.70) ?? Colors.white38,
+          fontSize: 14,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.3,
         ),

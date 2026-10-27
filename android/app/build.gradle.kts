@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
 
     id("com.android.application")
@@ -14,9 +17,21 @@ plugins {
 
 
 
+val keystoreProperties = Properties()
+
+val keystorePropertiesFile = rootProject.file("key.properties")
+
+if (keystorePropertiesFile.exists()) {
+
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+
+}
+
+
+
 android {
 
-    namespace = "com.example.reminders_app"
+    namespace = "com.reminders.reminder_app"
 
     compileSdk = flutter.compileSdkVersion
 
@@ -48,7 +63,7 @@ android {
 
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
 
-        applicationId = "com.example.reminders_app"
+        applicationId = "com.reminders.reminder_app"
 
         // You can update the following values to match your application needs.
 
@@ -65,9 +80,18 @@ android {
     }
 
 
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String?
+            keyPassword = keystoreProperties["keyPassword"] as String?
+            storeFile = keystoreProperties["storeFile"]?.let { file(it) }
+            storePassword = keystoreProperties["storePassword"] as String?
+        }
+    }
+
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             isShrinkResources = false
             proguardFiles(
@@ -96,6 +120,7 @@ flutter {
 dependencies {
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation("com.facebook.android:audience-network-sdk:6.17.0")
 
 }
 

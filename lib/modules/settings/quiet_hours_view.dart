@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../ads/ad_on_back_wrapper.dart';
+import '../../ads/hybrid_banner_ad_widget.dart';
+import '../../ads/hybrid_native_ad_widget.dart';
 import 'settings_controller.dart';
 
 class QuietHoursView extends GetView<SettingsController> {
@@ -8,6 +11,12 @@ class QuietHoursView extends GetView<SettingsController> {
 
   @override
   Widget build(BuildContext context) {
+    return AdOnBackWrapper(
+      child: _buildScaffold(context),
+    );
+  }
+
+  Widget _buildScaffold(BuildContext context) {
     return Scaffold(
       backgroundColor: Get.isDarkMode ? const Color(0xFF0E0F12) : Colors.grey.shade50,
       appBar: AppBar(
@@ -15,7 +24,7 @@ class QuietHoursView extends GetView<SettingsController> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.chevron_left, color: Get.isDarkMode ? Colors.white : Colors.black87, size: 28),
-          onPressed: controller.goBack,
+          onPressed: () => Navigator.of(context).maybePop(),
         ),
         title: Text(
           'Quiet Hours',
@@ -48,17 +57,29 @@ class QuietHoursView extends GetView<SettingsController> {
               ),
             ),
             SizedBox(height: 32.h),
-            
+
             // Enable Quiet Hours Toggle
             _buildToggleSection(),
-            SizedBox(height: 32.h),
-            
+            SizedBox(height: 20.h),
+
+            const HybridNativeAdWidget(),
+            SizedBox(height: 20.h),
+
             // Time Selection Section
             Obx(() => controller.quietHoursEnabled.value 
                 ? _buildTimeSelectionSection() 
                 : const SizedBox.shrink()),
+
+            SizedBox(height: 10.h),
+            Obx(() => controller.quietHoursEnabled.value
+                ? HybridNativeAdWidget()
+                : const SizedBox.shrink()),
           ],
         ),
+      ),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: const HybridBannerAdWidget(),
       ),
     );
   }

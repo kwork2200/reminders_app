@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../ads/ad_on_back_wrapper.dart';
+import '../../ads/hybrid_banner_ad_widget.dart';
 import 'theme_controller.dart';
 
 class ThemeView extends GetView<ThemeController> {
@@ -8,73 +10,53 @@ class ThemeView extends GetView<ThemeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF0E0F12),
-      appBar: AppBar(
+    return AdOnBackWrapper(
+      child: Scaffold(
         backgroundColor: const Color(0xFF0E0F12),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.chevron_left, color: Colors.white, size: 28),
-          onPressed: () => Get.back(),
-        ),
-        title: const Text(
-          'Theme',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF0E0F12),
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.chevron_left, color: Colors.white, size: 28),
+            onPressed: () => Navigator.of(context).maybePop(),
+          ),
+          title: const Text(
+            'Theme',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Choose Theme',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(16.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Choose Theme',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Select your preferred theme appearance',
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 14,
+              const SizedBox(height: 8),
+              const Text(
+                'Select your preferred theme appearance',
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 14,
+                ),
               ),
-            ),
-            SizedBox(height: 32.h),
-
-            // // Theme Options
-            // _buildThemeOption(
-            //   title: 'Light',
-            //   subtitle: 'Bright and clean interface for daytime use',
-            //   icon: Icons.light_mode_outlined,
-            //   themeName: 'Light',
-            // ),
-            //
-            // SizedBox(height: 16.h),
-            //
-            // _buildThemeOption(
-            //   title: 'Dark',
-            //   subtitle: 'Easy on the eyes for low-light environments',
-            //   icon: Icons.dark_mode_outlined,
-            //   themeName: 'Dark',
-            // ),
-            //
-            // SizedBox(height: 16.h),
-            //
-            // _buildThemeOption(
-            //   title: 'System Default',
-            //   subtitle: 'Automatically switches with your device settings',
-            //   icon: Icons.settings_brightness_outlined,
-            //   themeName: 'System Default',
-            // ),
-          ],
+              SizedBox(height: 32.h),
+            ],
+          ),
+        ),
+        bottomNavigationBar: SafeArea(
+          top: false,
+          child: const HybridBannerAdWidget(),
         ),
       ),
     );

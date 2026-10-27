@@ -378,7 +378,7 @@ class AddChimeController extends GetxController {
 
       // ✅ Wait for previous screen to mount, THEN show snackbar + refresh
       await Future.delayed(const Duration(milliseconds: 300));
-      Get.snackbar('Success', 'Chime saved successfully!');
+      Get.snackbar('Success', 'Chime saved successfully!', isDismissible: false);
 
       try {
         final homeController = Get.find<HomeController>();
@@ -396,6 +396,7 @@ class AddChimeController extends GetxController {
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
         margin: const EdgeInsets.all(16),
+        isDismissible: false,
       );
     }
   }
@@ -413,7 +414,6 @@ class AddChimeController extends GetxController {
         Get.back(); // Close dialog
         try {
           await _storageService.deleteChime(editingChimeId.value);
-          Get.snackbar('Success', 'Chime removed successfully!');
           
           // Trigger refresh in home controller using reactive pattern
           try {
@@ -425,8 +425,10 @@ class AddChimeController extends GetxController {
           }
           
           Get.offAllNamed(Routes.HOME);
+          await Future.delayed(const Duration(milliseconds: 300));
+          Get.snackbar('Success', 'Chime removed successfully!', isDismissible: false);
         } catch (e) {
-          Get.snackbar('Error', 'Failed to remove chime: $e');
+          Get.snackbar('Error', 'Failed to remove chime: $e', isDismissible: false);
         }
       },
       style: ElevatedButton.styleFrom(

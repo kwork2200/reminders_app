@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../ads/ad_on_back_wrapper.dart';
+import '../../ads/hybrid_banner_ad_widget.dart';
 import 'settings_controller.dart';
 
 class FeedbackView extends GetView<SettingsController> {
@@ -8,68 +10,74 @@ class FeedbackView extends GetView<SettingsController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Get.isDarkMode ? const Color(0xFF0E0F12) : Colors.grey.shade50,
-      appBar: AppBar(
+    return AdOnBackWrapper(
+      child: Scaffold(
         backgroundColor: Get.isDarkMode ? const Color(0xFF0E0F12) : Colors.grey.shade50,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.chevron_left, color: Get.isDarkMode ? Colors.white : Colors.black87, size: 28),
-          onPressed: controller.goBack,
-        ),
-        title: Text(
-          'Feedback',
-          style: TextStyle(
-            color: Get.isDarkMode ? Colors.white : Colors.black87,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          backgroundColor: Get.isDarkMode ? const Color(0xFF0E0F12) : Colors.grey.shade50,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.chevron_left, color: Get.isDarkMode ? Colors.white : Colors.black87, size: 28),
+            onPressed: () => Navigator.of(context).maybePop(),
+          ),
+          title: Text(
+            'Feedback',
+            style: TextStyle(
+              color: Get.isDarkMode ? Colors.white : Colors.black87,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'We Value Your Feedback',
-              style: TextStyle(
-                color: Get.isDarkMode ? Colors.white : Colors.black87,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(16.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'We Value Your Feedback',
+                style: TextStyle(
+                  color: Get.isDarkMode ? Colors.white : Colors.black87,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Help us improve Hourly Chime by sharing your thoughts',
-              style: TextStyle(
-                color: Get.isDarkMode ? Colors.white70 : Colors.black54,
-                fontSize: 14,
+              const SizedBox(height: 8),
+              Text(
+                'Help us improve Reminders by sharing your thoughts',
+                style: TextStyle(
+                  color: Get.isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: 14,
+                ),
               ),
-            ),
-            SizedBox(height: 32.h),
-            
-            // Overall Rating Section
-            _buildSectionTitle('Overall Rating'),
-            SizedBox(height: 12.h),
-            _buildRatingSection(),
-            SizedBox(height: 24.h),
-            
-            // Feedback Type Section
-            _buildSectionTitle('Feedback Type'),
-            SizedBox(height: 12.h),
-            _buildFeedbackTypeSection(),
-            SizedBox(height: 24.h),
-            
-            // Detailed Feedback Section
-            _buildSectionTitle('Detailed Feedback'),
-            SizedBox(height: 12.h),
-            _buildFeedbackInput(),
-            SizedBox(height: 32.h),
-            
-            // Submit Button
-            _buildSubmitButton(),
-          ],
+              SizedBox(height: 32.h),
+
+              // Overall Rating Section
+              _buildSectionTitle('Overall Rating'),
+              SizedBox(height: 12.h),
+              _buildRatingSection(),
+              SizedBox(height: 24.h),
+
+              // Feedback Type Section
+              _buildSectionTitle('Feedback Type'),
+              SizedBox(height: 12.h),
+              _buildFeedbackTypeSection(),
+              SizedBox(height: 24.h),
+
+              // Detailed Feedback Section
+              _buildSectionTitle('Detailed Feedback'),
+              SizedBox(height: 12.h),
+              _buildFeedbackInput(),
+              SizedBox(height: 32.h),
+
+              // Submit Button
+              _buildSubmitButton(),
+            ],
+          ),
+        ),
+        bottomNavigationBar: SafeArea(
+          top: false,
+          child: const HybridBannerAdWidget(),
         ),
       ),
     );

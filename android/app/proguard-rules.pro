@@ -75,28 +75,28 @@
 -dontwarn android.support.**
 
 # Keep model classes
--keep class com.example.reminders_app.data.models.** { *; }
+-keep class com.reminders.reminder_app.data.models.** { *; }
 
 # Keep storage service
--keep class com.example.reminders_app.data.services.** { *; }
+-keep class com.reminders.reminder_app.data.services.** { *; }
 
 # Keep controllers
--keep class com.example.reminders_app.modules.**.** { *; }
+-keep class com.reminders.reminder_app.modules.**.** { *; }
 
 # Keep background service
--keep class com.example.reminders_app.data.services.BackgroundService { *; }
+-keep class com.reminders.reminder_app.data.services.BackgroundService { *; }
 
 # Keep notification service
--keep class com.example.reminders_app.data.services.NotificationService { *; }
+-keep class com.reminders.reminder_app.data.services.NotificationService { *; }
 
 # Keep all views
--keep class com.example.reminders_app.modules.**.*View { *; }
+-keep class com.reminders.reminder_app.modules.**.*View { *; }
 
 # Keep all bindings
--keep class com.example.reminders_app.modules.**.*Binding { *; }
+-keep class com.reminders.reminder_app.modules.**.*Binding { *; }
 
 # Keep theme
--keep class com.example.reminders_app.core.theme.** { *; }
+-keep class com.reminders.reminder_app.core.theme.** { *; }
 
 # Keep all GetX related classes
 -keep class * extends androidx.lifecycle.ViewModel

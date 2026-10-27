@@ -6,6 +6,9 @@ abstract class Routes {
   static const SETTINGS = '/settings';
   static const UPGRADE = '/upgrade';
   static const PRIVACY_POLICY = '/privacy-policy';
+  static const TERMS = '/terms';
+  static const ABOUT_US = '/about-us';
+  static const CONTACT_US = '/contact-us';
   static const OUR_APPS = '/our-apps';
   static const FEEDBACK = '/feedback';
   static const QUIET_HOURS = '/quiet-hours';

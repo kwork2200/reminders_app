@@ -11,7 +11,7 @@ import '../../data/services/background_service.dart';
 import '../../data/services/alarm_scheduler_service.dart';
 import '../../data/services/background_test_service.dart';
 import '../../data/services/battery_optimization_service.dart';
-import '../../data/firebase/admob_service.dart';
+import '../../utils/functions.dart';
 
 class HomeController extends GetxController {
   final isDefaultChimeEnabled = false.obs; // Always false by default
@@ -57,8 +57,6 @@ class HomeController extends GetxController {
       }
     });
 
-    _initializeBannerAd();
-    
     _startTimeCheckTimer();
     
     ever(shouldRefreshChimes, (bool shouldRefresh) async {
@@ -75,8 +73,6 @@ class HomeController extends GetxController {
     print('HomeController onClose: Cancelling timer and disposing ads');
     _timeCheckTimer?.cancel();
     _timeCheckTimer = null;
-    AdMobService().disposeBannerAd();
-    
     super.onClose();
   }
 
@@ -269,7 +265,11 @@ class HomeController extends GetxController {
     loadChimes();
   }
 
-  void navigateToUpgrade() {
+  Future<void> navigateToUpgrade() async {
+    final context = Get.context;
+    if (context != null) {
+      await showManagedInterstitialAd(context);
+    }
     Get.toNamed(Routes.UPGRADE);
   }
 
@@ -277,6 +277,10 @@ class HomeController extends GetxController {
     print('addChime() method called');
     print('Navigating to ADD_CHIME');
     try {
+      final context = Get.context;
+      if (context != null) {
+        await showManagedInterstitialAd(context);
+      }
       final result = await Get.toNamed(Routes.ADD_CHIME);
       print('Returned from ADD_CHIME with result: $result');
       if (result == 'refresh') {
@@ -307,7 +311,11 @@ class HomeController extends GetxController {
     }
   }
 
-  void navigateToSettings() {
+  Future<void> navigateToSettings() async {
+    final context = Get.context;
+    if (context != null) {
+      await showManagedInterstitialAd(context);
+    }
     Get.toNamed(Routes.SETTINGS);
   }
 
@@ -321,28 +329,7 @@ class HomeController extends GetxController {
     shouldRefreshChimes.value = true;
   }
   
-  void _initializeBannerAd() {
-    print('📱 Initializing banner ad for home screen');
-    
-    // Add a small delay to ensure Firebase is fully initialized
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      print('📱 Creating banner ad after delay...');
-      AdMobService().createBannerAd();
-      
-      // Set up callback to know when banner ad is loaded
-      AdMobService().onBannerAdLoaded = () {
-        print('✅ Banner ad loaded successfully in home screen!');
-        // Update reactive state
-        isBannerAdLoaded.value = true;
-      };
-    });
-  }
-  
-  // Get banner ad widget
-  Widget getBannerAdWidget() {
-    return AdMobService().getBannerAdWidget();
-  }
-  
+
   // Handle chime card tap with full-screen ad logic
   void onChimeCardTap(String chimeId) {
     print('🔵 Chime card tapped: $chimeId');
@@ -362,13 +349,8 @@ class HomeController extends GetxController {
   }
   
   void _showFullScreenAdAndNavigate(String chimeId) async {
-    // Show full-screen ad if available
-    if (AdMobService().areAdsEnabled) {
+
       print('📱 Loading full-screen ad...');
-      
-      // Load interstitial ad
-      AdMobService().loadInterstitialAd();
-      
       // Wait for ad to load before showing
       bool adShown = false;
       
@@ -376,39 +358,19 @@ class HomeController extends GetxController {
       for (int i = 0; i < 10; i++) {
         await Future.delayed(const Duration(milliseconds: 500));
         
-        if (AdMobService().isInterstitialAdLoaded) {
           print('✅ Interstitial ad is ready, showing now...');
-          AdMobService().showInterstitialAd(onAdDismissed: () {
             print('📱 Full-screen ad dismissed, navigating to edit chime');
             editChime(chimeId);
-          });
           adShown = true;
           break;
-        }
       }
-      
       // If ad never showed after 5 seconds, navigate anyway
       if (!adShown) {
         print('⏰ Timeout: Ad never loaded, navigating to edit chime');
         editChime(chimeId);
       }
-    } else {
-      print('🚫 Ads disabled, navigating directly');
-      editChime(chimeId);
-    }
   }
 
-  // Debug method to force show banner ad (bypass Firebase)
-  void debugForceShowBanner() {
-    print('🔧 DEBUG: Forcing banner ad creation (bypassing Firebase)');
-    // Temporarily enable ads for debugging
-    AdMobService().createBannerAd();
-    
-    AdMobService().onBannerAdLoaded = () {
-      print('✅ DEBUG: Forced banner ad loaded!');
-      update();
-    };
-  }
   
   // Test background service functionality
   Future<void> testBackgroundService() async {

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:reminders_app/ads/app_open_ad_manager.dart';
+import 'package:reminders_app/ads/interstitial_ad_manager.dart';
+import 'package:reminders_app/services/app_lifecycle_service.dart';
+import 'package:reminders_app/services/remote_config_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'core/theme/app_theme.dart';
@@ -18,17 +23,27 @@ import 'modules/theme/theme_controller.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase
   await Firebase.initializeApp();
 
-  // Initialize essential services only
+  await MobileAds.instance.initialize();
+  print('✅ Google Mobile Ads initialized');
+
+  await RemoteConfigService.instance.initialize();
+
+  print('🔄 Preloading App Open Ad at app startup...');
+  AppOpenAdManager.instance.loadAd();
+
+  print('🔄 Preloading Interstitial Ad at app startup...');
+  InterstitialAdManager.instance.loadAd();
+
+  Get.put(AppLifecycleService(), permanent: true);
+
+
   await StorageService().init();
 
-  // Initialize theme controller
   final themeController = Get.put(ThemeController());
   await themeController.loadTheme(); // Ensure theme is loaded before app starts
 
-  // Initialize non-blocking services in background
   _initializeBackgroundServices();
 
   runApp(
@@ -45,30 +60,22 @@ void main() async {
 
 void _initializeBackgroundServices() async {
   try {
-    // Request required permissions first (Android 12+ needs exact alarm permission)
     final permissionService = PermissionService();
     await permissionService.requestAllPermissions();
 
-    // Initialize notification service
     await NotificationService().initialize();
 
-    // Initialize alarm scheduler for exact alarms (works when app killed)
     await AlarmSchedulerService().initialize();
     await AlarmSchedulerService().scheduleAllChimes();
     debugPrint('✅ Alarm scheduler initialized with exact alarms');
 
-    // Initialize app-killed notification service for extra reliability
     await AppKilledNotificationService().initialize();
     await AppKilledNotificationService().scheduleAllChimes();
     debugPrint('✅ App-killed notification service initialized');
 
-    // Initialize background service for foreground monitoring
     await BackgroundService().initialize();
     await BackgroundService().startService();
     debugPrint('✅ Background service started');
-
-    // Initialize AdMob service (non-blocking)
-    AdMobService().initialize();
   } catch (e) {
     debugPrint('Error initializing background services: $e');
   }
@@ -81,7 +88,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ThemeController>(
       builder: (controller) => GetMaterialApp(
-        title: 'Hourly Chime',
+        title: 'Reminders',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,

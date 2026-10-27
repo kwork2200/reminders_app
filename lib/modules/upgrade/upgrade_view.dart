@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../ads/ad_on_back_wrapper.dart';
+import '../../ads/hybrid_banner_ad_widget.dart';
+import '../../ads/hybrid_native_ad_widget.dart';
 import 'upgrade_controller.dart';
 
 class UpgradeView extends GetView<UpgradeController> {
@@ -7,6 +10,12 @@ class UpgradeView extends GetView<UpgradeController> {
 
   @override
   Widget build(BuildContext context) {
+    return AdOnBackWrapper(
+      child: _buildScaffold(context),
+    );
+  }
+
+  Widget _buildScaffold(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0E0F12),
       appBar: AppBar(
@@ -14,7 +23,7 @@ class UpgradeView extends GetView<UpgradeController> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.close, color: Colors.white, size: 28),
-          onPressed: controller.goBack,
+          onPressed: () => Navigator.of(context).maybePop(),
         ),
         title: const Text(
           'Upgrade to Premium',
@@ -29,7 +38,6 @@ class UpgradeView extends GetView<UpgradeController> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            // Crown Icon
             Container(
               width: 100,
               height: 100,
@@ -111,7 +119,12 @@ class UpgradeView extends GetView<UpgradeController> {
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: const HybridNativeAdWidget(),
+            ),
+            const SizedBox(height: 20),
 
             // Pricing Cards
             Padding(
@@ -146,7 +159,12 @@ class UpgradeView extends GetView<UpgradeController> {
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: const HybridNativeAdWidget(),
+            ),
+            const SizedBox(height: 20),
 
             // Upgrade Button
             Padding(
@@ -218,6 +236,10 @@ class UpgradeView extends GetView<UpgradeController> {
             const SizedBox(height: 32),
           ],
         ),
+      ),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: const HybridBannerAdWidget(),
       ),
     );
   }

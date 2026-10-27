@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:reminders_app/ads/hybrid_native_ad_widget.dart';
+import '../../ads/hybrid_banner_ad_widget.dart';
 import '../../core/theme/app_colors.dart';
 import 'onboarding_controller.dart';
 
@@ -49,8 +51,9 @@ class OnboardingView extends GetView<OnboardingController> {
                   ],
                 ),
               ),
+              const HybridNativeAdWidget(),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -68,7 +71,7 @@ class OnboardingView extends GetView<OnboardingController> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                        padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 6.h),
                         elevation: 5,
                         shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
                       ),
@@ -80,10 +83,15 @@ class OnboardingView extends GetView<OnboardingController> {
                   ],
                 ),
               ),
+              SizedBox(height: 16.h),
             ],
           ),
         ),
       ),
+      // bottomNavigationBar: SafeArea(
+      //   top: false,
+      //   child: const HybridBannerAdWidget(),
+      // ),
     );
   }
 
@@ -126,8 +134,8 @@ class OnboardingView extends GetView<OnboardingController> {
               SizedBox(width: 16.w),
               // Clock on the right side
               Container(
-                height: 70.h,
-                width: 70.h,
+                height: 55.h,
+                width: 55.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
@@ -158,7 +166,7 @@ class OnboardingView extends GetView<OnboardingController> {
           SizedBox(height: 32.h),
           // Person illustration in middle - replace with actual image
           Container(
-            height: 200.h,
+            height: 150.h,
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.r),
@@ -241,7 +249,7 @@ class OnboardingView extends GetView<OnboardingController> {
 
   Widget _buildBellPanel(BuildContext context, IconData icon, Color color) {
     return Container(
-      height: 180.h,
+      height: 150.h,
       width: 90.w,
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -293,7 +301,7 @@ class OnboardingView extends GetView<OnboardingController> {
         children: [
           // Phone mockup
           Container(
-            height: 280.h,
+            height: 230.h,
             width: 160.w,
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -441,7 +449,7 @@ class OnboardingView extends GetView<OnboardingController> {
           SizedBox(height: 40.h),
           // Text above phone
           Text(
-            'Hourly Chime brings that signal back.',
+            'Reminders brings that signal back.',
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.bold,
@@ -477,7 +485,7 @@ class OnboardingView extends GetView<OnboardingController> {
             alignment: Alignment.center,
             children: [
               Container(
-                height: 250.h,
+                height: 200.h,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.r),
@@ -496,8 +504,8 @@ class OnboardingView extends GetView<OnboardingController> {
                 top: 20.h,
                 left: 20.w,
                 child: Container(
-                  height: 80.h,
-                  width: 80.h,
+                  height: 65.h,
+                  width: 65.h,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: LinearGradient(

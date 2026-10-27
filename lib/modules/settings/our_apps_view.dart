@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../ads/ad_on_back_wrapper.dart';
+import '../../ads/hybrid_banner_ad_widget.dart';
+import '../../ads/hybrid_native_ad_widget.dart';
 import 'settings_controller.dart';
 
 class OurAppsView extends GetView<SettingsController> {
@@ -8,50 +11,56 @@ class OurAppsView extends GetView<SettingsController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Get.isDarkMode ? const Color(0xFF0E0F12) : Colors.grey.shade50,
-      appBar: AppBar(
+    return AdOnBackWrapper(
+      child: Scaffold(
         backgroundColor: Get.isDarkMode ? const Color(0xFF0E0F12) : Colors.grey.shade50,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.chevron_left, color: Get.isDarkMode ? Colors.white : Colors.black87, size: 28),
-          onPressed: controller.goBack,
-        ),
-        title: Text(
-          'Our Apps',
-          style: TextStyle(
-            color: Get.isDarkMode ? Colors.white : Colors.black87,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          backgroundColor: Get.isDarkMode ? const Color(0xFF0E0F12) : Colors.grey.shade50,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.chevron_left, color: Get.isDarkMode ? Colors.white : Colors.black87, size: 28),
+            onPressed: () => Navigator.of(context).maybePop(),
+          ),
+          title: Text(
+            'Our Apps',
+            style: TextStyle(
+              color: Get.isDarkMode ? Colors.white : Colors.black87,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Discover More Apps',
-              style: TextStyle(
-                color: Get.isDarkMode ? Colors.white : Colors.black87,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(16.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Discover More Apps',
+                style: TextStyle(
+                  color: Get.isDarkMode ? Colors.white : Colors.black87,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Explore our collection of productivity and lifestyle apps',
-              style: TextStyle(
-                color: Get.isDarkMode ? Colors.white70 : Colors.black54,
-                fontSize: 14,
+              const SizedBox(height: 8),
+              Text(
+                'Explore our collection of productivity and lifestyle apps',
+                style: TextStyle(
+                  color: Get.isDarkMode ? Colors.white70 : Colors.black54,
+                  fontSize: 14,
+                ),
               ),
-            ),
-            SizedBox(height: 24.h),
-            
-            // Apps Grid
-            _buildAppsGrid(),
-          ],
+              SizedBox(height: 24.h),
+
+              // Apps Grid
+              _buildAppsGrid(),
+            ],
+          ),
+        ),
+        bottomNavigationBar: SafeArea(
+          top: false,
+          child: const HybridBannerAdWidget(),
         ),
       ),
     );
@@ -109,18 +118,37 @@ class OurAppsView extends GetView<SettingsController> {
       ),
     ];
 
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 12.w,
-        mainAxisSpacing: 12.h,
-        childAspectRatio: 0.75,
-      ),
-      itemCount: apps.length,
-      itemBuilder: (context, index) => _buildAppCard(apps[index]),
-    );
+    final rows = <Widget>[];
+    for (var i = 0; i < apps.length; i += 2) {
+      rows.add(Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: AspectRatio(
+              aspectRatio: 0.75,
+              child: _buildAppCard(apps[i]),
+            ),
+          ),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: i + 1 < apps.length
+                ? AspectRatio(
+                    aspectRatio: 0.75,
+                    child: _buildAppCard(apps[i + 1]),
+                  )
+                : const SizedBox(),
+          ),
+        ],
+      ));
+
+      if (i + 2 < apps.length) {
+        rows.add(SizedBox(height: 16.h));
+        rows.add(const HybridNativeAdWidget());
+        rows.add(SizedBox(height: 16.h));
+      }
+    }
+
+    return Column(children: rows);
   }
 
   Widget _buildAppCard(AppInfo app) {

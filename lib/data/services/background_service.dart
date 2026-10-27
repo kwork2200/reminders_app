@@ -10,6 +10,7 @@ import 'storage_service.dart';
 import 'notification_service.dart';
 import 'alarm_scheduler_service.dart';
 
+@pragma('vm:entry-point')
 class BackgroundService {
   static final BackgroundService _instance = BackgroundService._internal();
   factory BackgroundService() => _instance;

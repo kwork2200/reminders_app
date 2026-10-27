@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../ads/ad_on_back_wrapper.dart';
+import '../../ads/hybrid_banner_ad_widget.dart';
+import '../../ads/hybrid_native_ad_widget.dart';
 import 'add_chime_controller.dart';
 
 class AddChimeView extends GetView<AddChimeController> {
@@ -7,6 +10,12 @@ class AddChimeView extends GetView<AddChimeController> {
 
   @override
   Widget build(BuildContext context) {
+    return AdOnBackWrapper(
+      child: _buildScaffold(context),
+    );
+  }
+
+  Widget _buildScaffold(BuildContext context) {
     return Scaffold(
       backgroundColor: Get.isDarkMode ? const Color(0xFF0E0E0E) : Colors.grey.shade50,
       appBar: AppBar(
@@ -14,7 +23,7 @@ class AddChimeView extends GetView<AddChimeController> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.chevron_left, color: Get.isDarkMode ? Colors.white : Colors.black87, size: 28),
-          onPressed: controller.goBack,
+          onPressed: () => Navigator.of(context).maybePop(),
         ),
         title: Obx(
           () => Text(
@@ -101,6 +110,9 @@ class AddChimeView extends GetView<AddChimeController> {
               ),
               const SizedBox(height: 16),
 
+              const HybridNativeAdWidget(),
+              const SizedBox(height: 16),
+
               _buildCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,6 +151,9 @@ class AddChimeView extends GetView<AddChimeController> {
                   ],
                 ),
               ),
+              const SizedBox(height: 16),
+
+              const HybridNativeAdWidget(),
               const SizedBox(height: 16),
 
               _buildCard(
@@ -340,6 +355,10 @@ class AddChimeView extends GetView<AddChimeController> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: const HybridBannerAdWidget(),
       ),
     );
   }
